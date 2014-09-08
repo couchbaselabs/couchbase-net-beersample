@@ -1,0 +1,14 @@
+﻿@model dynamic
+
+@{
+    ViewBag.Title = "title";
+    Layout = "../Shared/_Layout.cshtml";
+}
+
+<h2>Beers</h2>
+<ul>
+    @foreach (var beer in Model)
+    {
+        <li>@beer.value - @Html.ActionLink("View", "Details", new { beer.id }) | @Html.ActionLink("Edit", "Edit", new { beer.id }) | @Html.ActionLink("Remove", "Delete", new { beer.id })</li>
+    }
+</ul>

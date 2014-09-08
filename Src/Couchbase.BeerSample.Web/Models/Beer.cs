@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
-namespace Couchbase.BeerSample.Domain
+namespace Couchbase.BeerSample.Web.Models
 {
-    public class Beer : Document<Beer>
+    public class Beer
     {
         public string Name { get; set; }
 
