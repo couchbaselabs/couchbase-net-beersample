@@ -1,8 +1,57 @@
-﻿@model dynamic
+﻿@model Couchbase.BeerSample.Web.Models.Brewery
 
 @{
-    ViewBag.Title = "title";
+    ViewBag.Title = "Brewery Details";
     Layout = "../Shared/_Layout.cshtml";
 }
 
-<h2>title</h2>
+<div class="jumbotron">
+    <p class="lead">
+        @if (ViewBag.Success)
+        {
+            <h2>@Model.Name</h2>
+            <div class="row">
+                <div class="col-md-1 text-info">Address:</div>
+                <div class="col-md-5">@Model.Address</div>
+                <div class="col-md-1 text-info">City:</div>
+                <div class="col-md-5">@Model.City</div>
+            </div>
+            <div class="row">
+                <div class="col-md-1 text-info">Code:</div>
+                <div class="col-md-5">@Model.Code</div>
+                <div class="col-md-1 text-info">Country:</div>
+                <div class="col-md-5">@Model.Country</div>
+            </div>
+            <div class="row">
+                <div class="col-md-1 text-info">Phone:</div>
+                <div class="col-md-5">@Model.Phone</div>
+                <div class="col-md-1 text-info">State:</div>
+                <div class="col-md-5">@Model.State</div>
+            </div>
+            <div class="row">
+                <div class="col-md-1 text-info">Website:</div>
+                <div class="col-md-5">@Model.Website</div>
+                <div class="col-md-1 text-info">Accuracy:</div>
+                <div class="col-md-5">@Model.Geo.Accuracy</div>
+            </div>
+             <div class="row">
+                <div class="col-md-1 text-info">Longitude:</div>
+                <div class="col-md-5">@Model.Geo.Longitude</div>
+                <div class="col-md-1 text-info">Latitude:</div>
+                <div class="col-md-5">@Model.Geo.Latitude</div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 text-info">&nbsp;</div>
+                <div class="col-md-12 text-info"></div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 text-info">Description</div>
+                <div class="col-md-12">@Model.Description</div>
+            </div>
+        }
+        else
+        {
+            <div class="alert alert-danger" role="alert">Error: @ViewBag.Message</div>
+        }
+    </p>
+</div>

@@ -1,29 +1,42 @@
-﻿using Newtonsoft.Json;
+﻿using System;
+using Newtonsoft.Json;
 
 namespace Couchbase.BeerSample.Web.Models
 {
     public class Beer
     {
+        [JsonProperty("name")]
         public string Name { get; set; }
 
-        public int Abv { get; set; }
+        [JsonProperty("abv")]
+        public decimal Abv { get; set; }
 
-        public int Ibu { get; set; }
+        [JsonProperty("ibu")]
+        public decimal Ibu { get; set; }
 
-        public int Srm { get; set; }
+        [JsonProperty("srm")]
+        public decimal Srm { get; set; }
 
-        public int Upc { get; set; }
+        [JsonProperty("upc")]
+        public decimal Upc { get; set; }
 
+        [JsonProperty("type")]
         public string Type { get; set; }
 
         [JsonProperty("brewery_id")]
         public string BreweryId { get; set; }
 
+        [JsonProperty("description")]
         public string Description { get; set; }
 
+        [JsonProperty("style")]
         public string Style { get; set; }
 
+        [JsonProperty("category")]
         public string Category { get; set; }
+
+        [JsonProperty("updated")]
+        public DateTime Updated { get; set; }
         /*
          * {
               "name": "21A IPA",

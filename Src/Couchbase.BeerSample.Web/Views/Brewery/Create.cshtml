@@ -1,8 +1,72 @@
-﻿@model dynamic
+﻿@model Couchbase.BeerSample.Web.Models.Brewery
 
 @{
     ViewBag.Title = "title";
     Layout = "../Shared/_Layout.cshtml";
 }
 
-<h2>title</h2>
+<div class="jumbotron">
+    @using (Html.BeginForm("Create", "Brewery", FormMethod.Post, new { Class = "navbar-form" }))
+    {
+        <p class="lead">
+            @if (ViewBag.Success)
+            {
+                <div class="form-group">
+                    <h2>@Model.Name</h2>
+                    @Html.HiddenFor(x => x.Name)
+                    <div class="row">
+                        <div class="col-md-1 text-info">Name:</div>
+                        <div class="col-md-5">@Html.TextBoxFor(x => x.Name, new { Class = "form-control" }) </div>
+                        <div class="col-md-1 text-info">City:</div>
+                        <div class="col-md-5">@Html.TextBoxFor(x => x.City, new { Class = "form-control" })</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-1 text-info">State:</div>
+                        <div class="col-md-5">@Html.TextBoxFor(x => x.State, new { Class = "form-control" })</div>
+                        <div class="col-md-1 text-info">Code:</div>
+                        <div class="col-md-5">@Html.TextBoxFor(x => x.Code, new { Class = "form-control" })</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-1 text-info">Country:</div>
+                        <div class="col-md-5"> @Html.TextBoxFor(x => x.Country, new { Class = "form-control" })</div>
+                        <div class="col-md-1 text-info">Phone:</div>
+                        <div class="col-md-5">@Html.TextBoxFor(x => x.Phone, new { Class = "form-control" })</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-1 text-info">Address:</div>
+                        <div class="col-md-5"> @Html.TextBoxFor(x => x.Address, new { Class = "form-control" })</div>
+                        <div class="col-md-1 text-info">Website</div>
+                        <div class="col-md-5">@Html.TextBoxFor(x => x.Website, new { Class = "form-control" })</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-1 text-info">Accuracy:</div>
+                        <div class="col-md-5"> @Html.TextBoxFor(x => x.Geo.Accuracy, new { Class = "form-control" })</div>
+                        <div class="col-md-1 text-info">Latitude:</div>
+                        <div class="col-md-5">@Html.TextBoxFor(x => x.Geo.Latitude, new { Class = "form-control" })</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-1 text-info">Longitude:</div>
+                        <div class="col-md-5"> @Html.TextBoxFor(x => x.Geo.Longitude, new { Class = "form-control" })</div>
+                        <div class="col-md-1 text-info"></div>
+                        <div class="col-md-5"></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 text-info">&nbsp;</div>
+                        <div class="col-md-12 text-info"></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 text-info">Description</div>
+                        <div class="col-md-12">@Html.TextAreaFor(x => x.Description, new { Class = "form-control", cols = "100", rows = "5" })</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12"><button type="submit" class="btn btn-default">Submit</button></div>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="alert alert-danger" role="alert">Error: @ViewBag.Message</div>
+            }
+        </p>
+    }
+</div>

@@ -1,14 +1,36 @@
 ﻿@model dynamic
 
 @{
-    ViewBag.Title = "title";
+    ViewBag.Title = "Breweries";
     Layout = "../Shared/_Layout.cshtml";
 }
 
-<h2>Beers</h2>
-<ul>
-    @foreach (var beer in Model)
-    {
-        <li>@beer.value - @Html.ActionLink("View", "Details", new { beer.id }) | @Html.ActionLink("Edit", "Edit", new { beer.id }) | @Html.ActionLink("Remove", "Delete", new { beer.id })</li>
-    }
-</ul>
+<div class="jumbotron">
+    <p class="lead">
+        <div class="row">
+            <div class="col-md-12">
+                <h2>Beers</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <ul>
+                    @foreach (var beer in Model)
+                    {
+                        <li>@beer.value - @Html.ActionLink("View", "Details", new { beer.id }) | @Html.ActionLink("Edit", "Edit", new { beer.id }) | @Html.ActionLink("Remove", "Delete", new { beer.id })</li>
+                    }
+                </ul>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="row">
+                    @using (Html.BeginForm("Create", "Beer", FormMethod.Get))
+                    {
+                        <div class="col-md-12"><button type="submit" class="btn btn-default">Create</button></div>
+                    }
+                </div>
+            </div>
+        </div>
+    </p>
+</div>

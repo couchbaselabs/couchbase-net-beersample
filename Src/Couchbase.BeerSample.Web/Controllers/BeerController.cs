@@ -10,7 +10,7 @@ namespace Couchbase.BeerSample.Web.Controllers
 {
     public class BeerController : Controller
     {
-        private IBucket _bucket;
+        private readonly IBucket _bucket;
 
         public BeerController() 
             : this(MvcApplication.Bucket)
@@ -22,8 +22,6 @@ namespace Couchbase.BeerSample.Web.Controllers
             _bucket = bucket;
         }
 
-        //
-        // GET: /Beer/
         public ActionResult Index()
         {
             var query = _bucket.CreateQuery(true).
@@ -35,8 +33,6 @@ namespace Couchbase.BeerSample.Web.Controllers
             return View(result.Rows);
         }
 
-        //
-        // POST: /Beer/
         [HttpPost]
         public ActionResult Index(int page)
         {
@@ -46,85 +42,132 @@ namespace Couchbase.BeerSample.Web.Controllers
                 Skip(page).
                 Limit(10);
 
-            var result = _bucket.Query<Beer>(query);
+            var result = _bucket.Query<dynamic>(query);
             return View(result.Rows);
         }
 
-        //
-        // GET: /Beer/Details/5
         public ActionResult Details(string id)
         {
-            return View();
+            var result = _bucket.GetDocument<Beer>(id);
+            ViewBag.Success = result.Success;
+            ViewBag.Message = result.Message;
+            ViewBag.Status = result.Status;
+
+            return View(result.Value);
         }
 
-        //
-        // GET: /Beer/Create
         public ActionResult Create()
         {
-            return View();
+            ViewBag.Success = true;
+            ViewBag.Message = "";
+            return View(new Beer());
         }
 
-        //
-        // POST: /Beer/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(Beer beer)
         {
             try
             {
-                // TODO: Add insert logic here
+                var result = _bucket.Insert(new Document<Beer>
+                {
+                    Id = beer.Name.Replace(' ', '_').ToLower(),
+                    Value = beer
+                });
 
-                return RedirectToAction("Index");
+                if (result.Success)
+                {
+                    return RedirectToAction("Index");
+                }
+                ViewBag.Success = result.Success;
+                ViewBag.Message = result.Message;
+                ViewBag.Status = result.Status;
+                return View(result.Value);
             }
-            catch
+            catch (Exception e)
             {
+                ViewBag.Success = false;
+                ViewBag.Message = e.Message;
                 return View();
             }
         }
 
-        //
-        // GET: /Beer/Edit/5
         public ActionResult Edit(string id)
         {
-            return View();
+            var result = _bucket.GetDocument<Beer>(id);
+            ViewBag.Success = result.Success;
+            ViewBag.Message = result.Message;
+            ViewBag.Status = result.Status;
+
+            return View(result.Value);
         }
 
-        //
-        // POST: /Beer/Edit/5
         [HttpPost]
-        public ActionResult Edit(string id, FormCollection collection)
+        public ActionResult Edit(string id, Beer modified)
         {
             try
             {
-                // TODO: Add update logic here
+                var result = _bucket.Upsert(new Document<Beer>
+                {
+                    Id = id,
+                    Value = modified
+                });
 
-                return RedirectToAction("Index");
+                if (result.Success)
+                {
+                    return RedirectToAction("Index");
+                }
+
+                ViewBag.Success = result.Success;
+                ViewBag.Message = result.Message;
+                ViewBag.Status = result.Status;
+                return View(modified);
             }
-            catch
+            catch (Exception e)
             {
+                ViewBag.Success = false;
+                ViewBag.Message = e.Message;
                 return View();
             }
         }
 
-        //
-        // GET: /Beer/Delete/5
         public ActionResult Delete(string id)
         {
-            return View();
+            var result = _bucket.GetDocument<Beer>(id);
+            ViewBag.Success = result.Success;
+            ViewBag.Message = result.Message;
+            ViewBag.Status = result.Status;
+
+            return View(result.Value);
         }
 
-        //
-        // POST: /Beer/Delete/5
         [HttpPost]
         public ActionResult Delete(string id, FormCollection collection)
         {
             try
             {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
+                var result = _bucket.GetDocument<Beer>(id);
+                if (result.Success)
+                {
+                    var document = result.Document;
+                    var deleted = _bucket.Remove(document);
+                    if (deleted.Success)
+                    {
+                        return RedirectToAction("Index");
+                    }
+                    ViewBag.Success = deleted.Success;
+                    ViewBag.Message = deleted.Message;
+                    ViewBag.Status = deleted.Status;
+                    return View();
+                }
+                ViewBag.Success = result.Success;
+                ViewBag.Message = result.Message;
+                ViewBag.Status = result.Status;
+                return View();
             }
-            catch
+            catch (Exception e)
             {
+                ViewBag.Success = false;
+                ViewBag.Message = e.Message;
                 return View();
             }
         }

@@ -23,5 +23,17 @@ namespace Couchbase.BeerSample.Web
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
         }
+
+        protected void Application_End()
+        {
+            if (Bucket != null)
+            {
+                Bucket.Dispose();
+            }
+            if (Cluster != null)
+            {
+                Cluster.Dispose();
+            }
+        }
     }
 }

@@ -1,8 +1,45 @@
-﻿@model dynamic
+﻿@model Couchbase.BeerSample.Web.Models.Beer
 
 @{
     ViewBag.Title = "title";
     Layout = "../Shared/_Layout.cshtml";
 }
 
-<h2>title</h2>
+<div class="jumbotron">
+    <p class="lead">
+        @if (ViewBag.Success)
+        {
+        <h2>@Model.Name by @Model.BreweryId</h2>
+        <div class="row">
+            <div class="col-md-1 text-info">Style:</div>
+            <div class="col-md-5">@Model.Style</div>
+            <div class="col-md-1 text-info">Srm:</div>
+            <div class="col-md-5">@Model.Srm</div>
+        </div>
+        <div class="row">
+            <div class="col-md-1 text-info">Category:</div>
+            <div class="col-md-5">@Model.Category</div>
+            <div class="col-md-1 text-info">Upc:</div>
+            <div class="col-md-5">@Model.Upc</div>
+        </div>
+        <div class="row">
+            <div class="col-md-1 text-info">Type:</div>
+            <div class="col-md-5">@Model.Type</div>
+            <div class="col-md-1 text-info">Ibu:</div>
+            <div class="col-md-5">@Model.Ibu</div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 text-info">&nbsp;</div>
+            <div class="col-md-12 text-info"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 text-info">Description</div>
+            <div class="col-md-12">@Model.Description</div>
+        </div>
+        }
+        else
+        {
+            <div class="alert alert-danger" role="alert">Error: @ViewBag.Message</div>
+        }
+    </p>
+</div>
