@@ -68,6 +68,8 @@ namespace Couchbase.BeerSample.Web.Controllers
         {
             try
             {
+                beer.Type = "beer";
+                beer.Updated = DateTime.Now;
                 var result = _bucket.Insert(new Document<Beer>
                 {
                     Id = beer.Name.Replace(' ', '_').ToLower(),
@@ -106,6 +108,7 @@ namespace Couchbase.BeerSample.Web.Controllers
         {
             try
             {
+                modified.Updated = DateTime.Now;
                 var result = _bucket.Upsert(new Document<Beer>
                 {
                     Id = id,

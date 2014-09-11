@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Couchbase.BeerSample.Web.Models
 {
@@ -20,7 +21,7 @@ namespace Couchbase.BeerSample.Web.Models
 
         public string Type { get; set; }
 
-        public string Updated { get; set; }
+        public DateTime Updated { get; set; }
 
         public string Description { get; set; }
 

@@ -53,6 +53,8 @@ namespace Couchbase.BeerSample.Web.Controllers
         {
             try
             {
+                brewery.Type = "brewery";
+                brewery.Updated = DateTime.Now;
                 var result = _bucket.Insert(new Document<Brewery>
                 {
                     Id = brewery.Name.Replace(' ', '_').ToLower(),

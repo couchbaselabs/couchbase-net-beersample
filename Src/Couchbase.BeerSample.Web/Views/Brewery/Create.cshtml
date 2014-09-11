@@ -13,7 +13,6 @@
             {
                 <div class="form-group">
                     <h2>@Model.Name</h2>
-                    @Html.HiddenFor(x => x.Name)
                     <div class="row">
                         <div class="col-md-1 text-info">Name:</div>
                         <div class="col-md-5">@Html.TextBoxFor(x => x.Name, new { Class = "form-control" }) </div>
