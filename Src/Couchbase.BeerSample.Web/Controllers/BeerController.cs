@@ -24,9 +24,7 @@ namespace Couchbase.BeerSample.Web.Controllers
 
         public ActionResult Index()
         {
-            var query = _bucket.CreateQuery(true).
-                DesignDoc("beer").
-                View("all_beers").
+            var query = _bucket.CreateQuery("beer", "all_beers").
                 Limit(10);
 
             var result = _bucket.Query<dynamic>(query);
@@ -36,9 +34,7 @@ namespace Couchbase.BeerSample.Web.Controllers
         [HttpPost]
         public ActionResult Index(int page)
         {
-            var query = _bucket.CreateQuery(false).
-                DesignDoc("beer").
-                View("all_beers").
+            var query = _bucket.CreateQuery("beer", "all_beers").
                 Skip(page).
                 Limit(10);
 
