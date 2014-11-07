@@ -18,7 +18,7 @@ namespace Couchbase.BeerSample.Web.Tests
         [Test]
         public void Test_Get_Index()
         {
-            using (var cluster = new CouchbaseCluster())
+            using (var cluster = new Cluster())
             {
                 using (var bucket = cluster.OpenBucket("beer-sample"))
                 {
@@ -34,7 +34,7 @@ namespace Couchbase.BeerSample.Web.Tests
         public void Test_Get_Details()
         {
             const string id = "21st_amendment_brewery_cafe-bitter_american";
-            using (var cluster = new CouchbaseCluster())
+            using (var cluster = new Cluster())
             {
                 using (var bucket = cluster.OpenBucket("beer-sample"))
                 {
@@ -49,7 +49,7 @@ namespace Couchbase.BeerSample.Web.Tests
         [Test]
         public void Test_Create()
         {
-            using (var cluster = new CouchbaseCluster())
+            using (var cluster = new Cluster())
             {
                 using (var bucket = cluster.OpenBucket("beer-sample"))
                 {
@@ -65,7 +65,7 @@ namespace Couchbase.BeerSample.Web.Tests
         public void Test_Edit()
         {
             const string id = "21st_amendment_brewery_cafe-amendment_pale_ale";
-            using (var cluster = new CouchbaseCluster())
+            using (var cluster = new Cluster())
             {
                 using (var bucket = cluster.OpenBucket("beer-sample"))
                 {

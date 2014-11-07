@@ -16,7 +16,7 @@ namespace Couchbase.BeerSample.Web.Tests
         [Test]
         public void Test_GetIndex()
         {
-            using (var cluster = new CouchbaseCluster())
+            using (var cluster = new Cluster())
             {
                 using (var bucket = cluster.OpenBucket("beer-sample"))
                 {

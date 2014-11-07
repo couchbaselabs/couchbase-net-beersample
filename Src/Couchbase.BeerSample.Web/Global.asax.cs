@@ -11,11 +11,11 @@ namespace Couchbase.BeerSample.Web
 {
     public class MvcApplication : System.Web.HttpApplication
     {
-        private static CouchbaseCluster Cluster { get; set; }
+        private static Cluster Cluster { get; set; }
         public static IBucket Bucket;
         protected void Application_Start()
         {
-            Cluster = new CouchbaseCluster();
+            Cluster = new Cluster();
             Bucket = Cluster.OpenBucket("beer-sample");
 
             AreaRegistration.RegisterAllAreas();
