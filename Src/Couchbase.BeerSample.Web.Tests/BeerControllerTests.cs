@@ -24,8 +24,8 @@ namespace Couchbase.BeerSample.Web.Tests
                 {
                     var controller = new BeerController(bucket);
                     var result = (ViewResult)controller.Index();
-                    var beers = result.Model as List<dynamic>;
-                    Assert.AreEqual(10, beers.Count);
+                    var beers = result.Model as IEnumerable<dynamic>;
+                    Assert.AreEqual(10, beers.Count());
                 }
             }
         }
@@ -71,9 +71,9 @@ namespace Couchbase.BeerSample.Web.Tests
                 {
                     var controller = new BeerController(bucket);
                     var get = bucket.GetDocument<Beer>(id);
-                    var beer = get.Value;
+                    var beer = get.Content;
                     beer.Ibu = 3.8m;
-                    var result = (RedirectToRouteResult) controller.Edit(id, get.Value);
+                    var result = (RedirectToRouteResult) controller.Edit(id, get.Content);
                     Assert.IsNotNull(result);
                 }
             }

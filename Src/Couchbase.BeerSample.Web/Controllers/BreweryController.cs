@@ -38,7 +38,7 @@ namespace Couchbase.BeerSample.Web.Controllers
             ViewBag.Message = result.Message;
             ViewBag.Status = result.Status;
 
-            return View(result.Value);
+            return View(result.Content);
         }
 
         public ActionResult Create()
@@ -58,7 +58,7 @@ namespace Couchbase.BeerSample.Web.Controllers
                 var result = _bucket.Insert(new Document<Brewery>
                 {
                     Id = brewery.Name.Replace(' ', '_').ToLower(),
-                    Value = brewery
+                    Content = brewery
                 });
 
                 if (result.Success)
@@ -68,7 +68,7 @@ namespace Couchbase.BeerSample.Web.Controllers
                 ViewBag.Success = result.Success;
                 ViewBag.Message = result.Message;
                 ViewBag.Status = result.Status;
-                return View(result.Value);
+                return View(result.Content);
             }
             catch (Exception e)
             {
@@ -85,7 +85,7 @@ namespace Couchbase.BeerSample.Web.Controllers
             ViewBag.Message = result.Message;
             ViewBag.Status = result.Status;
 
-            return View(result.Value);
+            return View(result.Content);
         }
 
         [HttpPost]
@@ -96,7 +96,7 @@ namespace Couchbase.BeerSample.Web.Controllers
                 var result = _bucket.Upsert(new Document<Brewery>
                 {
                     Id = id,
-                    Value = modified
+                    Content = modified
                 });
 
                 if (result.Success)
@@ -124,7 +124,7 @@ namespace Couchbase.BeerSample.Web.Controllers
             ViewBag.Message = result.Message;
             ViewBag.Status = result.Status;
 
-            return View(result.Value);
+            return View(result.Content);
         }
 
         [HttpPost]

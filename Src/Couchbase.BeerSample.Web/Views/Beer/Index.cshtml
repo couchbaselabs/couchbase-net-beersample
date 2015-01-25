@@ -17,7 +17,7 @@
                 <ul>
                     @foreach (var beer in Model)
                     {
-                        <li>@beer.value - @Html.ActionLink("View", "Details", new { beer.id }) | @Html.ActionLink("Edit", "Edit", new { beer.id }) | @Html.ActionLink("Remove", "Delete", new { beer.id })</li>
+                        <li>@beer.Value.name - @Html.ActionLink("View", "Details", new { beer.Id }) | @Html.ActionLink("Edit", "Edit", new { beer.Id }) | @Html.ActionLink("Remove", "Delete", new { beer.Id })</li>
                     }
                 </ul>
             </div>
