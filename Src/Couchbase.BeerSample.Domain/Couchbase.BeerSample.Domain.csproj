@@ -30,12 +30,18 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Couchbase">
-      <HintPath>..\packages\CouchbaseNetClient.2.0.1-beta\lib\net45\Couchbase.dll</HintPath>
+    <Reference Include="Common.Logging">
+      <HintPath>..\packages\Common.Logging.3.0.0\lib\net40\Common.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="Common.Logging.Core">
+      <HintPath>..\packages\Common.Logging.Core.3.0.0\lib\net40\Common.Logging.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Couchbase.NetClient">
+      <HintPath>..\packages\CouchbaseNetClient.2.0.2\lib\net45\Couchbase.NetClient.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -48,9 +54,24 @@
   <ItemGroup>
     <Compile Include="Beer.cs" />
     <Compile Include="Brewery.cs" />
+    <Compile Include="Exceptions\CouchbaseAuthenticationException.cs" />
+    <Compile Include="Exceptions\CouchbaseClientException.cs" />
+    <Compile Include="Exceptions\CouchbaseDataException.cs" />
+    <Compile Include="Exceptions\CouchbaseServerException.cs" />
+    <Compile Include="Exceptions\DocumentExistsException.cs" />
+    <Compile Include="Exceptions\DocumentNotFoundException.cs" />
+    <Compile Include="Exceptions\QueryRequestException.cs" />
+    <Compile Include="Exceptions\ViewRequestException.cs" />
+    <Compile Include="Extensions\DocumentResultExtensions.cs" />
+    <Compile Include="Extensions\EntityExtensions.cs" />
     <Compile Include="Geo.cs" />
-    <Compile Include="Persistence\BaseDao.cs" />
-    <Compile Include="Persistence\BeerDao.cs" />
+    <Compile Include="Misc\IgnoreFieldContractResolver.cs" />
+    <Compile Include="Persistence\BeerRepository.cs" />
+    <Compile Include="Persistence\BreweryRepository.cs" />
+    <Compile Include="Persistence\Core\EntityBase.cs" />
+    <Compile Include="Persistence\Core\IEntity.cs" />
+    <Compile Include="Persistence\Core\IRepository.cs" />
+    <Compile Include="Persistence\Core\Repository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

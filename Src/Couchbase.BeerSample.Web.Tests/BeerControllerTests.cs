@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Web.Mvc;
-using Couchbase.BeerSample.Web.Models;
+using Couchbase.BeerSample.Domain;
+using Couchbase.BeerSample.Domain.Extensions;
+using Couchbase.BeerSample.Domain.Persistence;
 using Couchbase.BeerSample.Web.Controllers;
-using Couchbase.Views;
 using NUnit.Framework;
-using NUnit.Framework.Constraints;
 
 namespace Couchbase.BeerSample.Web.Tests
 {
@@ -22,7 +19,7 @@ namespace Couchbase.BeerSample.Web.Tests
             {
                 using (var bucket = cluster.OpenBucket("beer-sample"))
                 {
-                    var controller = new BeerController(bucket);
+                    var controller = new BeerController(new BeerRepository(bucket));
                     var result = (ViewResult)controller.Index();
                     var beers = result.Model as IEnumerable<dynamic>;
                     Assert.AreEqual(10, beers.Count());
@@ -38,7 +35,7 @@ namespace Couchbase.BeerSample.Web.Tests
             {
                 using (var bucket = cluster.OpenBucket("beer-sample"))
                 {
-                    var controller = new BeerController(bucket);
+                    var controller = new BeerController(new BeerRepository(bucket));
                     var result = (ViewResult) controller.Details(id);
                     var beer = result.Model as Beer;
                     Assert.IsNotNull(beer);
@@ -54,7 +51,7 @@ namespace Couchbase.BeerSample.Web.Tests
                 using (var bucket = cluster.OpenBucket("beer-sample"))
                 {
                     bucket.Remove("skunky_beer");
-                    var controller = new BeerController(bucket);
+                    var controller = new BeerController(new BeerRepository(bucket));
                     var result = (RedirectToRouteResult)controller.Create(new Beer { Name = "skunky beer" });
                     Assert.IsNotNull(result);
                 }
@@ -69,9 +66,9 @@ namespace Couchbase.BeerSample.Web.Tests
             {
                 using (var bucket = cluster.OpenBucket("beer-sample"))
                 {
-                    var controller = new BeerController(bucket);
+                    var controller = new BeerController(new BeerRepository(bucket));
                     var get = bucket.GetDocument<Beer>(id);
-                    var beer = get.Content;
+                    var beer = get.Document.UnWrap();
                     beer.Ibu = 3.8m;
                     var result = (RedirectToRouteResult) controller.Edit(id, get.Content);
                     Assert.IsNotNull(result);

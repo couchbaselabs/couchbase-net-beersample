@@ -5,18 +5,24 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using Couchbase.Configuration.Client;
 using Couchbase.Core;
+using Newtonsoft.Json;
 
 namespace Couchbase.BeerSample.Web
 {
     public class MvcApplication : System.Web.HttpApplication
     {
-        private static Cluster Cluster { get; set; }
-        public static IBucket Bucket;
         protected void Application_Start()
         {
-            Cluster = new Cluster();
-            Bucket = Cluster.OpenBucket("beer-sample");
+            var config = new ClientConfiguration
+            {
+                SerializationSettings = new JsonSerializerSettings
+                {
+                    ContractResolver = 
+                }
+            };
+            ClusterHelper.Initialize(config);
 
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
@@ -26,14 +32,7 @@ namespace Couchbase.BeerSample.Web
 
         protected void Application_End()
         {
-            if (Bucket != null)
-            {
-                Bucket.Dispose();
-            }
-            if (Cluster != null)
-            {
-                Cluster.Dispose();
-            }
+            ClusterHelper.Close();
         }
     }
 }

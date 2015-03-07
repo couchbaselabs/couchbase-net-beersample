@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using System.Web.Mvc;
 using Couchbase.BeerSample.Web.Controllers;
-using Couchbase.BeerSample.Web.Models;
 using NUnit.Framework;
 
 namespace Couchbase.BeerSample.Web.Tests

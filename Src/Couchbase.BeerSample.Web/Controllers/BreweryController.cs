@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using Couchbase.BeerSample.Web.Models;
+using Couchbase.BeerSample.Domain;
 using Couchbase.Core;
 
 namespace Couchbase.BeerSample.Web.Controllers
@@ -12,9 +9,9 @@ namespace Couchbase.BeerSample.Web.Controllers
     {
         private IBucket _bucket;
 
-        public BreweryController() 
-            : this(MvcApplication.Bucket)
-        { 
+        public BreweryController()
+            : this(ClusterHelper.GetBucket("beer-sample"))
+        {
         }
 
         public BreweryController(IBucket bucket)

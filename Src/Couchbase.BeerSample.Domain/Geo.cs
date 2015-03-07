@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Couchbase.BeerSample.Domain.Persistence;
+using Couchbase.BeerSample.Domain.Persistence.Core;
 using Newtonsoft.Json;
 
 namespace Couchbase.BeerSample.Domain
 {
-    public class Geo
+    public class Geo : EntityBase
     {
         public string Accuracy { get; set; }
 
@@ -16,11 +13,5 @@ namespace Couchbase.BeerSample.Domain
 
         [JsonProperty("lon")]
         public string Longitude { get; set; }
-        /*
-         * "geo": {
-            "accuracy": "ROOFTOP",
-            "lat": 37.7825,
-            "lon": -122.393
-         * */
     }
 }

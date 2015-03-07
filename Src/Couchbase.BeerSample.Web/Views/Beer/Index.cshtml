@@ -1,4 +1,4 @@
-﻿@model dynamic
+﻿@model IEnumerable<Couchbase.Views.ViewRow<Couchbase.BeerSample.Domain.Beer>>
 
 @{
     ViewBag.Title = "Breweries";
@@ -17,7 +17,7 @@
                 <ul>
                     @foreach (var beer in Model)
                     {
-                        <li>@beer.Value.name - @Html.ActionLink("View", "Details", new { beer.Id }) | @Html.ActionLink("Edit", "Edit", new { beer.Id }) | @Html.ActionLink("Remove", "Delete", new { beer.Id })</li>
+                        <li>@beer.Value.Name - @Html.ActionLink("View", "Details", new { beer.Id }) | @Html.ActionLink("Edit", "Edit", new { beer.Id }) | @Html.ActionLink("Remove", "Delete", new { beer.Id })</li>
                     }
                 </ul>
             </div>
