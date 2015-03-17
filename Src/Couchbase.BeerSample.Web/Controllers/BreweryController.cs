@@ -1,48 +1,63 @@
 ﻿using System;
 using System.Web.Mvc;
 using Couchbase.BeerSample.Domain;
-using Couchbase.Core;
+using Couchbase.BeerSample.Domain.Exceptions;
+using Couchbase.BeerSample.Domain.Persistence;
+using Couchbase.BeerSample.Web.Models;
 
 namespace Couchbase.BeerSample.Web.Controllers
 {
     public class BreweryController : Controller
     {
-        private IBucket _bucket;
+        protected readonly BreweryRepository Repository;
 
-        public BreweryController()
-            : this(ClusterHelper.GetBucket("beer-sample"))
+        public BreweryController() :
+            this(new BreweryRepository(ClusterHelper.GetBucket("beer-sample")))
         {
         }
 
-        public BreweryController(IBucket bucket)
+        public BreweryController(BreweryRepository repository)
         {
-            _bucket = bucket;
+            Repository = repository;
         }
 
         public ActionResult Index()
         {
-            const string query = "SELECT META().id, b.name FROM beer-sample as b WHERE b.type='brewery' LIMIT 10";
-            var result = _bucket.Query<dynamic>(query);
-            ViewBag.Success = result.Success;
-            ViewBag.Message = result.Message;
-            return View(result.Rows);
+            try
+            {
+                return View(Repository.SelectAllBreweries(0, 10));
+            }
+            catch (QueryRequestException e)
+            {
+                ViewBag.Success = false;
+                ViewBag.Message = e.Message;
+                ViewBag.Status = e.QueryStatus;
+                return View();
+            }
         }
 
         public ActionResult Details(string id)
         {
-            var result = _bucket.GetDocument<Brewery>(id);
-            ViewBag.Success = result.Success;
-            ViewBag.Message = result.Message;
-            ViewBag.Status = result.Status;
-
-            return View(result.Content);
+            Brewery brewery = null;
+            try
+            {
+                brewery = Repository.Find(id);
+                ViewBag.Success = true;
+            }
+            catch (CouchbaseDataException e)
+            {
+                ViewBag.Success = false;
+                ViewBag.Message = e.Message;
+                ViewBag.Status = e.Status;
+            }
+            return View(new BreweryViewModel(brewery));
         }
 
         public ActionResult Create()
         {
             ViewBag.Success = true;
             ViewBag.Message = "";
-            return View(new Brewery());
+            return View(new Beer());
         }
 
         [HttpPost]
@@ -50,78 +65,73 @@ namespace Couchbase.BeerSample.Web.Controllers
         {
             try
             {
-                brewery.Type = "brewery";
+                brewery.Type = "beer";
                 brewery.Updated = DateTime.Now;
-                var result = _bucket.Insert(new Document<Brewery>
-                {
-                    Id = brewery.Name.Replace(' ', '_').ToLower(),
-                    Content = brewery
-                });
-
-                if (result.Success)
-                {
-                    return RedirectToAction("Index");
-                }
-                ViewBag.Success = result.Success;
-                ViewBag.Message = result.Message;
-                ViewBag.Status = result.Status;
-                return View(result.Content);
+                brewery.Id = brewery.Name.Replace(' ', '_').ToLower();
+                Repository.Save(brewery);
+                return RedirectToAction("Index");
             }
-            catch (Exception e)
+            catch (CouchbaseDataException e)
             {
                 ViewBag.Success = false;
                 ViewBag.Message = e.Message;
-                return View();
+                ViewBag.Status = e.Status;
+                return View(brewery);
             }
         }
 
         public ActionResult Edit(string id)
         {
-            var result = _bucket.GetDocument<Brewery>(id);
-            ViewBag.Success = result.Success;
-            ViewBag.Message = result.Message;
-            ViewBag.Status = result.Status;
-
-            return View(result.Content);
-        }
-
-        [HttpPost]
-        public ActionResult Edit(string id, Brewery modified)
-        {
+            Brewery brewery = null;
             try
             {
-                var result = _bucket.Upsert(new Document<Brewery>
-                {
-                    Id = id,
-                    Content = modified
-                });
-
-                if (result.Success)
-                {
-                    return RedirectToAction("Index");
-                }
-
-                ViewBag.Success = result.Success;
-                ViewBag.Message = result.Message;
-                ViewBag.Status = result.Status;
-                return View(modified);
+                brewery = Repository.Find(id);
+                ViewBag.Success = true;
             }
-            catch (Exception e)
+            catch (CouchbaseDataException e)
             {
                 ViewBag.Success = false;
                 ViewBag.Message = e.Message;
-                return View();
+                ViewBag.Status = e.Status;
+            }
+            return View(new BreweryViewModel(brewery));
+        }
+
+        [HttpPost]
+        public ActionResult Edit(string id, BreweryViewModel viewModel)
+        {
+            try
+            {
+                var brewery = Repository.Find(id);
+                viewModel.Update(brewery);
+                Repository.Save(brewery);
+                return RedirectToAction("Index");
+            }
+            catch (CouchbaseDataException e)
+            {
+                ViewBag.Success = false;
+                ViewBag.Message = e.Message;
+                ViewBag.Status = e.Status;
+                return View(viewModel);
             }
         }
 
         public ActionResult Delete(string id)
         {
-            var result = _bucket.GetDocument<Brewery>(id);
-            ViewBag.Success = result.Success;
-            ViewBag.Message = result.Message;
-            ViewBag.Status = result.Status;
-
-            return View(result.Content);
+            Brewery brewery = null;
+            try
+            {
+                brewery = Repository.Find(id);
+                Repository.Remove(brewery);
+                return RedirectToAction("Index");
+            }
+            catch (CouchbaseDataException e)
+            {
+                ViewBag.Success = false;
+                ViewBag.Message = e.Message;
+                ViewBag.Status = e.Status;
+                return View(brewery);
+            }
         }
 
         [HttpPost]
@@ -129,29 +139,15 @@ namespace Couchbase.BeerSample.Web.Controllers
         {
             try
             {
-                var result = _bucket.GetDocument<Beer>(id);
-                if (result.Success)
-                {
-                    var document = result.Document;
-                    var deleted = _bucket.Remove(document);
-                    if (deleted.Success)
-                    {
-                        return RedirectToAction("Index");
-                    }
-                    ViewBag.Success = deleted.Success;
-                    ViewBag.Message = deleted.Message;
-                    ViewBag.Status = deleted.Status;
-                    return View();
-                }
-                ViewBag.Success = result.Success;
-                ViewBag.Message = result.Message;
-                ViewBag.Status = result.Status;
-                return View();
+                var brewery = Repository.Find(id);
+                Repository.Remove(brewery);
+                return RedirectToAction("Index");
             }
-            catch(Exception e)
+            catch (CouchbaseDataException e)
             {
                 ViewBag.Success = false;
                 ViewBag.Message = e.Message;
+                ViewBag.Status = e.Status;
                 return View();
             }
         }

@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using Couchbase.BeerSample.Domain.Misc;
 using Couchbase.Configuration.Client;
 using Couchbase.Core;
 using Newtonsoft.Json;
@@ -19,7 +20,7 @@ namespace Couchbase.BeerSample.Web
             {
                 SerializationSettings = new JsonSerializerSettings
                 {
-                    ContractResolver = 
+                    ContractResolver = new IgnoreFieldContractResolver("id")
                 }
             };
             ClusterHelper.Initialize(config);

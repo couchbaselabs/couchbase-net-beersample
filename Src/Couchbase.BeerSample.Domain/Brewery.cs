@@ -2,11 +2,18 @@
 using System.Collections.Generic;
 using Couchbase.BeerSample.Domain.Persistence;
 using Couchbase.BeerSample.Domain.Persistence.Core;
+using Newtonsoft.Json;
 
 namespace Couchbase.BeerSample.Domain
 {
     public class Brewery : EntityBase
     {
+        public Brewery()
+        {
+            Geo = new Geo();
+            Address = new List<string>();
+        }
+
         public string Name { get; set; }
 
         public string City { get; set; }

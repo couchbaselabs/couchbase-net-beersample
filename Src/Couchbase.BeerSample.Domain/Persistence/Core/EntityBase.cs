@@ -1,5 +1,6 @@
 ﻿
 using System;
+using Newtonsoft.Json;
 
 namespace Couchbase.BeerSample.Domain.Persistence.Core
 {
@@ -15,7 +16,7 @@ namespace Couchbase.BeerSample.Domain.Persistence.Core
             }
             Type = _typeName;
         }
-
+        [JsonProperty("id")]
         public string Id { get; set; }
 
         public string Type { get; set; }

@@ -235,7 +235,7 @@ jQuery.extend = jQuery.fn.extend = function() {
 		}
 	}
 
-	// Return the modified object
+	// Return the viewModel object
 	return target;
 };
 
@@ -2527,7 +2527,7 @@ select = Sizzle.select = function( selector, context, results, seed ) {
 	}
 
 	// Compile and execute a filtering function if one is not provided
-	// Provide `match` to avoid retokenization if we modified the selector above
+	// Provide `match` to avoid retokenization if we viewModel the selector above
 	( compiled || compile( selector, match ) )(
 		seed,
 		context,
@@ -3076,7 +3076,7 @@ jQuery.Callbacks = function( options ) {
 		firingStart,
 		// End of the loop when firing
 		firingLength,
-		// Index of currently firing callback (modified by remove if needed)
+		// Index of currently firing callback (viewModel by remove if needed)
 		firingIndex,
 		// Actual callback list
 		list = [],
@@ -8228,7 +8228,7 @@ jQuery.extend({
 				if ( status === 204 || s.type === "HEAD" ) {
 					statusText = "nocontent";
 
-				// if not modified
+				// if not viewModel
 				} else if ( status === 304 ) {
 					statusText = "notmodified";
 
