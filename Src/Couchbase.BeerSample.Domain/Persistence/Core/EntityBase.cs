@@ -16,6 +16,7 @@ namespace Couchbase.BeerSample.Domain.Persistence.Core
             }
             Type = _typeName;
         }
+
         [JsonProperty("id")]
         public string Id { get; set; }
 

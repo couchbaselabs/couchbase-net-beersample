@@ -140,8 +140,9 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\BeerController.cs" />
-    <Compile Include="Controllers\BreweryController.cs" />
-    <Compile Include="Controllers\BreweryController2.cs" />
+    <Compile Include="Controllers\BreweryController.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

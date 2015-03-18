@@ -16,14 +16,7 @@ namespace Couchbase.BeerSample.Web
     {
         protected void Application_Start()
         {
-            var config = new ClientConfiguration
-            {
-                SerializationSettings = new JsonSerializerSettings
-                {
-                    ContractResolver = new IgnoreFieldContractResolver("id")
-                }
-            };
-            ClusterHelper.Initialize(config);
+            ClusterHelper.Initialize();
 
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
