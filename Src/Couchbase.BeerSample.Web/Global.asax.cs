@@ -16,7 +16,7 @@ namespace Couchbase.BeerSample.Web
     {
         protected void Application_Start()
         {
-            ClusterHelper.Initialize();
+            ClusterHelper.Initialize("couchbase");
 
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
