@@ -5,6 +5,8 @@ The official "Beer Sample" example application using the Couchbase .NET SDK 2.0
 
 NOTE: This is an older example that has been updated to work with Couchbase Server 5.0+. However a more complete example that demonstrates additional Couchbase Server features is the [Travel Sample](https://github.com/couchbaselabs/try-cb-dotnet).
 
+## NOTE: Not supported under Couchbase Enterprise Support Subscriptions! ##
+
 ## Authentication
 
 With Role Base Access Control introduced in Couchbase Server 5.0, it is necessary to authenticate the SDK with the cluster using a discrete username and password combination. The username and password can be added in the web.config under the "couchbase" section. If using a Couchbase Server version before RBAC was added, you must leave these values empty.
