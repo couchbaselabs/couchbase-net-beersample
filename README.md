@@ -5,7 +5,7 @@ The official "Beer Sample" example application using the Couchbase .NET SDK 2.0
 
 NOTE: This is an older example that has been updated to work with Couchbase Server 5.0+. However a more complete example that demonstrates additional Couchbase Server features is the [Travel Sample](https://github.com/couchbaselabs/try-cb-dotnet).
 
-## NOTE: Not supported under Couchbase Enterprise Support Subscriptions! ##
+*NOTE:* This is not an officially supported Couchbase project.
 
 ## Authentication
 
